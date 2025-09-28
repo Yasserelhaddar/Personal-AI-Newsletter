@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject_line }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+            color: #333333;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 5px 0;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            color: #333333;
+            padding: 15px;
+            background-color: #fff8dc;
+            border-radius: 8px;
+            border: 1px solid #f0e68c;
+        }
+
+        .article {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .article-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+
+        .article-title a {
+            color: #333333;
+            text-decoration: none;
+        }
+
+        .article-title a:hover {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+
+        .article-summary {
+            margin: 10px 0;
+            color: #555555;
+            font-size: 14px;
+        }
+
+        .article-meta {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 10px;
+        }
+
+        .insights-section {
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #b0d4ff;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .insights-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            color: #333333;
+            text-align: center;
+        }
+
+        .insight {
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .insight-title {
+            font-weight: bold;
+            margin: 0 0 8px 0;
+            color: #333333;
+            font-size: 14px;
+        }
+
+        .insight-content {
+            color: #555555;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .github-section {
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            border: 1px solid #d0d0d0;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .github-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            color: #333333;
+            text-align: center;
+        }
+
+        .repo-item {
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .repo-name {
+            font-weight: bold;
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .repo-name:hover {
+            text-decoration: underline;
+        }
+
+        .repo-description {
+            color: #555555;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .repo-stats {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            margin: 10px 0;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #0066cc;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .header, .article, .section-title, .insights-section, .github-section, .footer {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🧠 TechFlow AI Newsletter</h1>
+            <p>Your Daily Intelligence Digest</p>
+            <p>{{ date }}</p>
+        </div>
+
+        <!-- Greeting -->
+        <p style="font-size: 16px; margin-bottom: 25px;">{{ greeting }}</p>
+
+        <!-- Content Sections -->
+        {% for section in sections %}
+        <div class="section">
+            <div class="section-title">
+                {% if section.emoji %}{{ section.emoji }} {% endif %}{{ section.title }}
+            </div>
+
+            {% for article in section.articles %}
+            <div class="article">
+                <div class="article-title">
+                    <a href="{{ article.content_item.url }}">{{ article.content_item.title }}</a>
+                </div>
+                {% if article.ai_summary %}
+                <div class="article-summary">{{ article.ai_summary }}</div>
+                {% endif %}
+                <div class="article-meta">
+                    {% if article.content_item.author %}By {{ article.content_item.author }} • {% endif %}
+                    {{ article.content_item.source }}
+                    {% if article.content_item.reading_time_minutes %} • {{ article.content_item.reading_time_minutes }} min read{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- Personalized Insights -->
+        {% if personalized_insights %}
+        <div class="insights-section">
+            <div class="insights-title">💡 Personalized Insights</div>
+            {% for insight in personalized_insights %}
+            <div class="insight">
+                <div class="insight-title">{{ insight.title }}</div>
+                <div class="insight-content">{{ insight.content }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- GitHub Activity -->
+        {% if github_activity and github_activity.recent_repositories %}
+        <div class="github-section">
+            <div class="github-title">🐙 Your GitHub Activity</div>
+            {% for repo in github_activity.recent_repositories %}
+            <div class="repo-item">
+                <a href="https://github.com/{{ repo.full_name }}" class="repo-name">{{ repo.name }}</a>
+                {% if repo.description %}
+                <div class="repo-description">{{ repo.description }}</div>
+                {% endif %}
+                <div class="repo-stats">
+                    {% if repo.stars %}⭐ {{ repo.stars }} {% endif %}
+                    {% if repo.language %}• {{ repo.language }} {% endif %}
+                    {% if repo.updated_at %}• Updated {{ repo.updated_at }}{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>{{ footer_content or 'Thanks for reading your personalized AI newsletter! 🚀' }}</p>
+            <p>
+                {% if preferences_url %}<a href="{{ preferences_url }}">⚙️ Preferences</a>{% endif %}
+                {% if web_version_url %}<a href="{{ web_version_url }}">🌐 Web Version</a>{% endif %}
+                {% if unsubscribe_url %}<a href="{{ unsubscribe_url }}">✋ Unsubscribe</a>{% endif %}
+            </p>
+            <p style="font-size: 12px; color: #999;">Powered by TechFlow AI</p>
+        </div>
+    </div>
+</body>
+</html>
