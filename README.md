@@ -4,14 +4,16 @@ An AI-powered newsletter system that helps curate personalized content from mult
 
 ## Features
 
-- 🤖 **AI-Powered Curation**: Uses OpenAI GPT-4 for content analysis and relevance scoring
-- 📧 **Email Delivery**: Integrates with Resend for email delivery with responsive HTML templates
-- 🔗 **Multi-Source Content**: Collects content from GitHub, web sources, and popular platforms
-- 📊 **Analytics**: Tracks delivery status and basic performance metrics
-- 🛡️ **Error Handling**: Includes rate limiting and fallback mechanisms
-- 📱 **Mobile-Friendly**: Responsive email templates that work across email clients
-- 🎯 **Personalization**: Filters content based on user interests and preferences
-- 🏗️ **Workflow Management**: Uses LangGraph for multi-stage content processing
+- **AI-Powered Curation**: Uses OpenAI GPT-4 for content analysis and relevance scoring
+- **Email Delivery**: Integrates with Resend for email delivery with responsive HTML templates
+- **Multi-Source Content**: Collects content from GitHub, web sources, and popular platforms
+- **Analytics**: Tracks delivery status and basic performance metrics
+- **Error Handling**: Includes rate limiting and fallback mechanisms
+- **Mobile-Friendly**: Responsive email templates that work across email clients
+- **Personalization**: Filters content based on user interests and preferences
+- **Workflow Management**: Uses LangGraph for multi-stage content processing
+- **Professional CLI**: Rich-based command-line interface with tables, panels, and progress indicators
+- **Scheduling Support**: Built-in scheduling with timezone support (no external cron required)
 
 ## Architecture
 
@@ -149,14 +151,11 @@ graph TD
 
 ### Basic Usage
 
-**Generate a newsletter**
-```bash
-uv run python -m src.main generate --user your_user_id
-```
+The CLI provides three main commands with a professional Rich-based interface:
 
-**Dry run (generate without sending)**
+**Setup the system**
 ```bash
-uv run python -m src.main generate --user your_user_id --dry-run
+uv run python -m src.main setup
 ```
 
 **List configured users**
@@ -164,10 +163,26 @@ uv run python -m src.main generate --user your_user_id --dry-run
 uv run python -m src.main list-users
 ```
 
-**Test system configuration**
+**Generate a newsletter immediately**
 ```bash
-uv run python -m src.main test-config
+uv run python -m src.main generate --user your_user_id --immediate
 ```
+
+**Generate with dry run (no email sent)**
+```bash
+uv run python -m src.main generate --user your_user_id --immediate --dry-run
+```
+
+**Run scheduled generation (continuous monitoring)**
+```bash
+uv run python -m src.main generate --user your_user_id
+```
+
+The CLI features:
+- Clean, professional interface using Rich library
+- Real-time progress indicators and status updates
+- Organized data display with tables and panels
+- Built-in scheduling without requiring external cron jobs
 
 ## Configuration
 
@@ -485,15 +500,16 @@ curl https://api.openai.com/v1/models \
 
 ```bash
 # Enable verbose logging
-NEWSLETTER_LOG_LEVEL=DEBUG uv run python -m src.main generate --user your_user_id
+NEWSLETTER_LOG_LEVEL=DEBUG uv run python -m src.main generate --user your_user_id --immediate
 
-# Test individual components
-uv run python -m src.main test-config     # Test configuration
-uv run python -m src.main test-mcp        # Test MCP servers
-uv run python -m src.main test-openai     # Test OpenAI connection
+# Run with verbose output
+uv run python -m src.main generate --user your_user_id --immediate --verbose
 
 # Check logs
 tail -f logs/newsletter.log
+
+# Test the system configuration
+uv run python -m src.main setup  # Re-run setup to test configuration
 
 # Validate email templates
 uv run python -c "from src.services.email_generation import EmailGenerationService; print('Templates OK')"
