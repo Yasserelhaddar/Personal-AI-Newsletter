@@ -215,7 +215,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>🧠 TechFlow AI Newsletter</h1>
+            <h1>TechFlow AI Newsletter</h1>
             <p>Your Daily Intelligence Digest</p>
             <p>{{ date }}</p>
         </div>
@@ -248,18 +248,6 @@
         </div>
         {% endfor %}
 
-        <!-- Personalized Insights -->
-        {% if personalized_insights %}
-        <div class="insights-section">
-            <div class="insights-title">💡 Personalized Insights</div>
-            {% for insight in personalized_insights %}
-            <div class="insight">
-                <div class="insight-title">{{ insight.title }}</div>
-                <div class="insight-content">{{ insight.content }}</div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
 
         <!-- GitHub Activity -->
         {% if github_activity and github_activity.recent_repositories %}
@@ -283,13 +271,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>{{ footer_content or 'Thanks for reading your personalized AI newsletter! 🚀' }}</p>
-            <p>
-                {% if preferences_url %}<a href="{{ preferences_url }}">⚙️ Preferences</a>{% endif %}
-                {% if web_version_url %}<a href="{{ web_version_url }}">🌐 Web Version</a>{% endif %}
-                {% if unsubscribe_url %}<a href="{{ unsubscribe_url }}">✋ Unsubscribe</a>{% endif %}
-            </p>
-            <p style="font-size: 12px; color: #999;">Powered by TechFlow AI</p>
+            <p>{{ footer_content or 'Thanks for reading your personalized AI newsletter!' }}</p>
         </div>
     </div>
 </body>
