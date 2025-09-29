@@ -1,5 +1,6 @@
 """User profile service for the Personal AI Newsletter Generator."""
 
+from datetime import datetime
 from typing import List, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import select
@@ -90,3 +91,31 @@ class UserProfileService:
 
         except Exception as e:
             raise Exception(f"Failed to get user profile: {e}")
+
+    async def update_last_newsletter_sent(self, user_id: str, sent_time: datetime) -> None:
+        """Update the last newsletter sent timestamp for a user."""
+        try:
+            # Find the user
+            if "@" in user_id:
+                stmt = select(User).where(User.email == user_id)
+            else:
+                import uuid
+                try:
+                    uuid_id = uuid.UUID(user_id)
+                    stmt = select(User).where(User.id == uuid_id)
+                except ValueError:
+                    stmt = select(User).where(User.email == user_id)
+
+            result = await self.db_session.execute(stmt)
+            db_user = result.scalar_one_or_none()
+
+            if not db_user:
+                raise Exception(f"User not found: {user_id}")
+
+            # Update the last newsletter sent time
+            db_user.updated_at = sent_time
+            await self.db_session.commit()
+
+        except Exception as e:
+            await self.db_session.rollback()
+            raise Exception(f"Failed to update last newsletter sent: {e}")
