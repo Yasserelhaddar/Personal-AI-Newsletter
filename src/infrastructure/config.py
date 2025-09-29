@@ -52,17 +52,17 @@ class ApplicationConfig(BaseSettings):
 
     # Domain Settings
     domain: str = Field(
-        default="yourdomain.com",
-        description="Domain name for email addresses"
+        default="",
+        description="Domain name for email addresses (leave empty to use Resend test email)"
     )
 
     # Email Settings
     from_email: str = Field(
-        default="newsletter@yourdomain.com",
-        description="From email address for newsletters"
+        default="",
+        description="From email address for newsletters (auto-configured based on domain)"
     )
     from_name: str = Field(
-        default="TechFlow AI Newsletter",
+        default="AI Newsletter",
         description="From name for newsletters"
     )
 
@@ -194,8 +194,21 @@ class ApplicationConfig(BaseSettings):
 
     @property
     def newsletter_from_email(self) -> str:
-        """Generate from email using the configured domain."""
-        return f"newsletter@{self.domain}"
+        """Generate from email using the configured domain or fallback to Resend test email."""
+        if self.from_email:
+            # Use explicitly configured from_email
+            return self.from_email
+        elif self.domain and self.domain != "" and self.domain != "yourdomain.com":
+            # Use domain-based email if custom domain is configured
+            return f"newsletter@{self.domain}"
+        else:
+            # Fallback to Resend's test email for development
+            return "onboarding@resend.dev"
+    
+    @property
+    def is_using_test_email(self) -> bool:
+        """Check if using test email address."""
+        return self.newsletter_from_email == "onboarding@resend.dev"
 
     class Config:
         env_prefix = "NEWSLETTER_"

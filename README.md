@@ -188,7 +188,8 @@ NEWSLETTER_FIRECRAWL_API_KEY=fc-...
 # GitHub for repository content (MCP server)
 NEWSLETTER_GITHUB_TOKEN=ghp_...
 
-# Your domain for email sending
+# Your domain for email sending (optional - leave empty for development)
+# If not set, emails will be sent from onboarding@resend.dev (test email)
 NEWSLETTER_DOMAIN=yourdomain.com
 ```
 
@@ -200,7 +201,9 @@ The system uses a hybrid approach with MCP servers and direct APIs:
 - **Repository**: https://github.com/resend/mcp-send-email
 - **Setup**: Clone and build locally (see installation steps)
 - **API Key**: Get from https://resend.com/api-keys
-- **Domain**: Configure sending domain in Resend dashboard
+- **Domain**: Configure sending domain in Resend dashboard (optional)
+  - **Without custom domain**: Emails sent from `onboarding@resend.dev` (development/testing)
+  - **With custom domain**: Emails sent from `newsletter@yourdomain.com` (production)
 
 #### 2. **Firecrawl API** - Web Content Extraction
 - **Direct API Integration**: No MCP server required
@@ -237,12 +240,24 @@ UserProfile(
 2. Create new secret key
 3. Add to `.env` as `NEWSLETTER_OPENAI_API_KEY=sk-...`
 
-### 2. Resend API Key & Domain
+### 2. Resend API Key & Domain (Optional)
+
+**Option 1: Development Mode (No Domain Required)**
 1. Sign up at https://resend.com
 2. Go to API Keys → Create API Key
-3. Go to Domains → Add Domain (e.g., techflow.com)
+3. Add to `.env`: `NEWSLETTER_RESEND_API_KEY=re_...`
+4. Leave `NEWSLETTER_DOMAIN` empty or omit it
+5. Emails will be sent from `onboarding@resend.dev` (Resend's test email)
+
+**Option 2: Production Mode (Custom Domain)**
+1. Sign up at https://resend.com
+2. Go to API Keys → Create API Key
+3. Go to Domains → Add Domain (e.g., yourdomain.com)
 4. Add DNS records as instructed by Resend
-5. Add to `.env`: `NEWSLETTER_RESEND_API_KEY=re_...` and `NEWSLETTER_DOMAIN=yourdomain.com`
+5. Add to `.env`: 
+   - `NEWSLETTER_RESEND_API_KEY=re_...`
+   - `NEWSLETTER_DOMAIN=yourdomain.com`
+6. Emails will be sent from `newsletter@yourdomain.com`
 
 ### 3. Firecrawl API Key
 1. Sign up at https://firecrawl.dev

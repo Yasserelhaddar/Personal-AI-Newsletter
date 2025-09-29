@@ -66,6 +66,12 @@ class NewsletterCLI:
                 print(f"❌ User profile not found: {user_id}")
                 return False
 
+            # Check if using test email
+            if config.is_using_test_email:
+                print("⚠️  Using Resend test email (onboarding@resend.dev)")
+                print("   For production use, configure a custom domain in .env")
+                print("")
+            
             # Create initial state
             from src.models.state import NewsletterGenerationState, GenerationMetadata
             initial_state = NewsletterGenerationState(

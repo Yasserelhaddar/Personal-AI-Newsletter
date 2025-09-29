@@ -131,6 +131,13 @@ class NewsletterSetup:
         print(f"  📧 Resend API: {'✅ Found in .env' if has_resend else '❌ Not configured'}")
         print(f"  🔥 Firecrawl API: {'✅ Found in .env' if has_firecrawl else '❌ Not configured'}")
         print(f"  🐙 GitHub Token: {'✅ Found in .env' if has_github else '❌ Not configured'}")
+        
+        # Check domain configuration
+        has_domain = bool(config_env.domain and config_env.domain != "" and config_env.domain != "yourdomain.com")
+        if not has_domain:
+            print(f"  🌐 Domain: ⚠️  Not configured (will use test email: onboarding@resend.dev)")
+        else:
+            print(f"  🌐 Domain: ✅ {config_env.domain} (newsletter@{config_env.domain})")
 
         # Use full path to npx and uvx to avoid PATH issues
         npx_path = "/opt/homebrew/bin/npx"
