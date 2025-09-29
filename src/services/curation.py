@@ -131,11 +131,12 @@ class CurationEngine(LoggerMixin):
             if item.is_high_quality and item.composite_score >= config.content_composite_score_threshold
         ]
 
-        # Categorize by user interests
+        # Categorize by user interests - allow generous per-category limits
+        # The final total will be controlled in newsletter composition
         categorized = categorize_content_by_interest(
             high_quality_content,
             user_profile.interests,
-            max_per_category=user_profile.max_articles // len(user_profile.interests)
+            max_per_category=max(5, user_profile.max_articles // len(user_profile.interests) + 2)
         )
 
         # Ensure we have enough content
@@ -148,7 +149,7 @@ class CurationEngine(LoggerMixin):
             categorized = categorize_content_by_interest(
                 medium_quality_content,
                 user_profile.interests,
-                max_per_category=user_profile.max_articles // len(user_profile.interests)
+                max_per_category=max(5, user_profile.max_articles // len(user_profile.interests) + 2)
             )
 
         return categorized
@@ -587,7 +588,4 @@ class NewsletterComposer(LoggerMixin):
 
     def _generate_footer(self) -> str:
         """Generate newsletter footer."""
-        return """
-        Built with ❤️ by your AI assistant
-        [Update preferences] [View web version] [Unsubscribe]
-        """
+        return "Thanks for reading your personalized AI newsletter!"

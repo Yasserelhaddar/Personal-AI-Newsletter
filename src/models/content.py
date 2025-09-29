@@ -65,7 +65,7 @@ class ContentItem:
     language: str = "en"
     word_count: Optional[int] = None
     reading_time_minutes: Optional[int] = None
-    collected_at: datetime = field(default_factory=datetime.utcnow)
+    collected_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self):
         """Generate content hash after initialization."""
@@ -209,7 +209,7 @@ class ContentItemModel(BaseModel):
     language: str = "en"
     word_count: Optional[int] = None
     reading_time_minutes: Optional[int] = None
-    collected_at: datetime = Field(default_factory=datetime.utcnow)
+    collected_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     @field_validator('reading_time_minutes')
     @classmethod
